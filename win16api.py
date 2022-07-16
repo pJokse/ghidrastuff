@@ -20,6 +20,7 @@ soundfile = folder + "sound.exports"
 mousefile = folder + "mouse.exports"
 keyboardfile = folder + "keyboard.exports"
 toolhelpfile = folder + "toolhelp.exports"
+verfile = folder + "ver.exports"
 
 # external stuff
 wingdefile = folder + "wingde.exports"
@@ -44,6 +45,7 @@ sound = []
 mouse = []
 keyboard = []
 toolhelp = []
+ver = []
 wingde = []
 bc450rtl = []
 
@@ -71,6 +73,26 @@ for lines in file(commdlgfile):
     line = lines.split(",")
     ordinal = int(line[0])
     commdlg.append(Func(ordinal, line[1]))
+
+for lines in file(mmsystemfile):
+    line = lines.split(",")
+    ordinal = int(line[0])
+    mmsystem.append(Func(ordinal, line[1]))
+
+for lines in file(toolhelpfile):
+    line = lines.split(",")
+    ordinal = int(line[0])
+    toolhelp.append(Func(ordinal, line[1]))
+
+for lines in file(win87emfile):
+    line = lines.split(",")
+    ordinal = int(line[0])
+    win87em.append(Func(ordinal, line[1]))
+
+for lines in file(verfile):
+    line = lines.split(",")
+    ordinal = int(line[0])
+    ver.append(Func(ordinal, line[1]))
 
 ext_fm = fm.getExternalFunctions()
 while ext_fm.hasNext():
@@ -112,6 +134,38 @@ while ext_fm.hasNext():
     if "COMMDLG::" in ext_func_name:
         o = ext_func_name.split("_")
         for x in commdlg:
+            if x.ordinal == int(o[1]):
+                name = str(x.name)
+                ext_func.setName(name,ghidra.program.model.symbol.SourceType.IMPORTED)
+                break
+    
+    if "MMSYSTEM::" in ext_func_name:
+        o = ext_func_name.split("_")
+        for x in mmsystem:
+            if x.ordinal == int(o[1]):
+                name = str(x.name)
+                ext_func.setName(name,ghidra.program.model.symbol.SourceType.IMPORTED)
+                break
+    
+    if "TOOLHELP::" in ext_func_name:
+        o = ext_func_name.split("_")
+        for x in toolhelp:
+            if x.ordinal == int(o[1]):
+                name = str(x.name)
+                ext_func.setName(name,ghidra.program.model.symbol.SourceType.IMPORTED)
+                break
+    
+    if "WIN87EM::" in ext_func_name:
+        o = ext_func_name.split("_")
+        for x in win87em:
+            if x.ordinal == int(o[1]):
+                name = str(x.name)
+                ext_func.setName(name,ghidra.program.model.symbol.SourceType.IMPORTED)
+                break
+    
+    if "VER::" in ext_func_name:
+        o = ext_func_name.split("_")
+        for x in ver:
             if x.ordinal == int(o[1]):
                 name = str(x.name)
                 ext_func.setName(name,ghidra.program.model.symbol.SourceType.IMPORTED)
