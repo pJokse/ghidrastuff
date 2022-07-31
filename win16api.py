@@ -25,6 +25,8 @@ verfile = folder + "ver.exports"
 # external stuff
 wingdefile = folder + "wingde.exports"
 bc450rtlfile = folder + "bc450rtl.exports"
+msvideofile = folder + "msvideo.exports"
+avifilefile = folder + "avifile.exports"
 
 class Func:
     def __init__(self, ordinal, name):
@@ -48,6 +50,8 @@ toolhelp = []
 ver = []
 wingde = []
 bc450rtl = []
+msvideo = []
+avifile = []
 
 for lines in file(gdifile):
     line = lines.split(",")
@@ -93,6 +97,16 @@ for lines in file(verfile):
     line = lines.split(",")
     ordinal = int(line[0])
     ver.append(Func(ordinal, line[1]))
+
+for lines in file(msvideofile):
+    line = lines.split(",")
+    ordinal = int(line[0])
+    msvideo.append(Func(ordinal, line[1]))
+
+for lines in file(avifilefile):
+    line = lines.split(",")
+    ordinal = int(line[0])
+    avifile.append(Func(ordinal, line[1]))
 
 ext_fm = fm.getExternalFunctions()
 while ext_fm.hasNext():
@@ -166,6 +180,22 @@ while ext_fm.hasNext():
     if "VER::" in ext_func_name:
         o = ext_func_name.split("_")
         for x in ver:
+            if x.ordinal == int(o[1]):
+                name = str(x.name)
+                ext_func.setName(name,ghidra.program.model.symbol.SourceType.IMPORTED)
+                break
+    
+    if "MSVIDEO::" in ext_func_name:
+        o = ext_func_name.split("_")
+        for x in msvideo:
+            if x.ordinal == int(o[1]):
+                name = str(x.name)
+                ext_func.setName(name,ghidra.program.model.symbol.SourceType.IMPORTED)
+                break
+    
+    if "AVIFILE::" in ext_func_name:
+        o = ext_func_name.split("_")
+        for x in avifile:
             if x.ordinal == int(o[1]):
                 name = str(x.name)
                 ext_func.setName(name,ghidra.program.model.symbol.SourceType.IMPORTED)
