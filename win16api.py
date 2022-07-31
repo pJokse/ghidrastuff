@@ -108,6 +108,11 @@ for lines in file(avifilefile):
     ordinal = int(line[0])
     avifile.append(Func(ordinal, line[1]))
 
+for lines in file(keyboardfile):
+    line = lines.split(",")
+    ordinal = int(line[0])
+    keyboard.append(Func(ordinal, line[1]))
+
 ext_fm = fm.getExternalFunctions()
 while ext_fm.hasNext():
     ext_func = ext_fm.next()
@@ -196,6 +201,14 @@ while ext_fm.hasNext():
     if "AVIFILE::" in ext_func_name:
         o = ext_func_name.split("_")
         for x in avifile:
+            if x.ordinal == int(o[1]):
+                name = str(x.name)
+                ext_func.setName(name,ghidra.program.model.symbol.SourceType.IMPORTED)
+                break
+    
+    if "KEYBOARD::" in ext_func_name:
+        o = ext_func_name.split("_")
+        for x in keyboard:
             if x.ordinal == int(o[1]):
                 name = str(x.name)
                 ext_func.setName(name,ghidra.program.model.symbol.SourceType.IMPORTED)
