@@ -1,6 +1,8 @@
 # ghidrastuff
 Stuff for ghidra
 
+win16api.py - Populate Ordinals from 16bit Windows.
+
 
 WIP
 ====
